@@ -3,7 +3,7 @@ import datetime as dt
 from django.shortcuts import get_list_or_404, get_object_or_404, render
 
 from blogicum import constants
-from blog.models import Post
+from blog.models import Post, Category
 
 
 def index(request):
@@ -36,6 +36,11 @@ def post_detail(request, id):
 
 
 def category_posts(request, category_slug):
+    category = get_object_or_404(
+        Category.objects.filter(
+            slug=category_slug,
+        ),
+    )
     post_list = get_list_or_404(
         Post.objects.select_related(
             'category', 'author', 'location'
@@ -47,7 +52,7 @@ def category_posts(request, category_slug):
         )
     )
     context = {
-        'category': category_slug,
+        'category': category,
         'post_list': post_list,
     }
     return render(request, 'blog/category.html', context)
