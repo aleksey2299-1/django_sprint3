@@ -1,8 +1,9 @@
-from django.shortcuts import render, get_object_or_404, get_list_or_404
-from .models import Post
 import datetime as dt
 
-END_TIME = dt.datetime.utcnow()
+from django.shortcuts import get_list_or_404, get_object_or_404, render
+
+from blogicum import constants
+from blog.models import Post
 
 
 def index(request):
@@ -11,8 +12,8 @@ def index(request):
     ).filter(
         is_published=True,
         category__is_published=True,
-        pub_date__lte=END_TIME,
-    )[:5]
+        pub_date__lte=dt.datetime.now(dt.timezone.utc),
+    )[:constants.POSTS_ON_MAIN]
     context = {
         'post_list': post_list,
     }
@@ -24,7 +25,7 @@ def post_detail(request, id):
         Post.objects.filter(
             is_published=True,
             category__is_published=True,
-            pub_date__lte=END_TIME,
+            pub_date__lte=dt.datetime.now(dt.timezone.utc),
         ),
         pk=id,
     )
@@ -42,7 +43,7 @@ def category_posts(request, category_slug):
             is_published=True,
             category__is_published=True,
             category__slug=category_slug,
-            pub_date__lte=END_TIME,
+            pub_date__lte=dt.datetime.now(dt.timezone.utc),
         )
     )
     context = {
