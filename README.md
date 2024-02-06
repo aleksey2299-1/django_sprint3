@@ -17,6 +17,7 @@ git clone git@github.com:aleksey2299-1/django_sprint3.git
 ````bash
 cd django_sprint3                    # переходим в папку django_sprint3
 python -m venv venv                  # создаем виртуальное окружение
+source venv/bin/activate             # включаем виртуальное окружение (если у вас не терминал bash замените bin на Scripts)
 pip install --upgrade pip            # обновляем установщик пакетов pip
 pip install -r requirements.txt      # устанавливаем необходимые для работы проекта зависимости
 ````
